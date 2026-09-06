@@ -1,9 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PurchaseController;
 
-Route::view('/', 'dashboard')->name('dashboard');
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\POSController;
+
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', [DashboardController::class, 'index'])
+    ->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| POS Route
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/pos', [POSController::class, 'index'])
+    ->name('pos');
 
 
 /*
@@ -18,7 +39,7 @@ Route::prefix('purchases')->name('purchases.')->group(function () {
     Route::get('/', [PurchaseController::class, 'index'])
         ->name('manage');
 
-    // Create Purchase
+    // Add Purchase
     Route::get('/create', [PurchaseController::class, 'create'])
         ->name('create');
 
@@ -27,7 +48,7 @@ Route::prefix('purchases')->name('purchases.')->group(function () {
         ->name('store');
 
     // View Purchase Data
-    // IMPORTANT: This must come before /{purchase}
+    // IMPORTANT: Must come before /{purchase}
     Route::get('/view-data', [PurchaseController::class, 'viewData'])
         ->name('view-data');
 
@@ -45,6 +66,45 @@ Route::prefix('purchases')->name('purchases.')->group(function () {
 
     // Delete Purchase
     Route::delete('/{purchase}', [PurchaseController::class, 'destroy'])
+        ->name('destroy');
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Purchase Order Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('purchase-orders')->name('purchase-orders.')->group(function () {
+
+    // List Purchase Orders
+    Route::get('/', [PurchaseOrderController::class, 'index'])
+        ->name('index');
+
+    // Create Purchase Order
+    Route::get('/create', [PurchaseOrderController::class, 'create'])
+        ->name('create');
+
+    // Store Purchase Order
+    Route::post('/', [PurchaseOrderController::class, 'store'])
+        ->name('store');
+
+    // View Purchase Order
+    Route::get('/{purchaseOrder}', [PurchaseOrderController::class, 'show'])
+        ->name('show');
+
+    // Edit Purchase Order
+    Route::get('/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])
+        ->name('edit');
+
+    // Update Purchase Order
+    Route::put('/{purchaseOrder}', [PurchaseOrderController::class, 'update'])
+        ->name('update');
+
+    // Delete Purchase Order
+    Route::delete('/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])
         ->name('destroy');
 
 });

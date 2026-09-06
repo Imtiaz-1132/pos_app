@@ -7,120 +7,265 @@ use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    // Purchase Data Manage
-    public function index()
+    /**
+     * Display all purchases.
+     */
+    public function index(Request $request)
     {
-        $purchases = Purchase::latest()->paginate(10);
+        $query = Purchase::query();
 
-        return view('purchases.manage', compact('purchases'));
+        // Search by Supplier or Reference No.
+        if ($request->filled('search')) {
+
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                $q->where('supplier', 'like', '%' . $search . '%')
+                  ->orWhere('reference_no', 'like', '%' . $search . '%');
+
+            });
+        }
+
+        // Payment Status Filter
+        if ($request->filled('payment_status')) {
+
+            $query->where(
+                'payment_status',
+                $request->payment_status
+            );
+        }
+
+        // Date From Filter
+        if ($request->filled('date_from')) {
+
+            $query->whereDate(
+                'purchase_date',
+                '>=',
+                $request->date_from
+            );
+        }
+
+        // Date To Filter
+        if ($request->filled('date_to')) {
+
+            $query->whereDate(
+                'purchase_date',
+                '<=',
+                $request->date_to
+            );
+        }
+
+        // Get Purchases
+        $purchases = $query
+            ->latest('purchase_date')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view(
+            'purchases.manage',
+            compact('purchases')
+        );
     }
 
 
-    // Add Purchase
+    /**
+     * Show Add Purchase form.
+     */
     public function create()
     {
         return view('purchases.create');
     }
 
 
-    // Store Purchase
+    /**
+     * Store Purchase.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'supplier' => 'required|string|max:255',
-            'reference_no' => 'required|string|max:255|unique:purchases,reference_no',
-            'purchase_date' => 'required|date',
-            'location' => 'required|string|max:255',
-            'payment_status' => 'required|in:paid,partial,pending',
-            'payment_method' => 'nullable|string|max:255',
-            'total_amount' => 'required|numeric|min:0',
-            'paid_amount' => 'required|numeric|min:0',
-            'due_amount' => 'required|numeric|min:0',
-            'document' => 'nullable|file|max:5120',
-            'notes' => 'nullable|string',
+
+            'supplier' =>
+                'required|string|max:255',
+
+            'reference_no' =>
+                'required|string|max:255|unique:purchases,reference_no',
+
+            'purchase_date' =>
+                'required|date',
+
+            'location' =>
+                'required|string|max:255',
+
+            'payment_status' =>
+                'required|in:paid,partial,pending',
+
+            'payment_method' =>
+                'nullable|string|max:255',
+
+            'total_amount' =>
+                'required|numeric|min:0',
+
+            'paid_amount' =>
+                'required|numeric|min:0',
+
+            'due_amount' =>
+                'required|numeric|min:0',
+
+            'document' =>
+                'nullable|file|max:5120',
+
+            'notes' =>
+                'nullable|string',
         ]);
 
-        // Upload document
+
+        // Upload Purchase Document
         if ($request->hasFile('document')) {
 
-            $validated['document'] = $request
-                ->file('document')
-                ->store('purchase-documents', 'public');
-
+            $validated['document'] =
+                $request->file('document')
+                    ->store(
+                        'purchase-documents',
+                        'public'
+                    );
         }
 
+
+        // Create Purchase
         Purchase::create($validated);
 
+
         return redirect()
             ->route('purchases.manage')
-            ->with('success', 'Purchase created successfully.');
+            ->with(
+                'success',
+                'Purchase created successfully.'
+            );
     }
 
 
-    // View Purchase Data
+    /**
+     * Display Purchase Data.
+     */
     public function viewData()
     {
-        $purchases = Purchase::latest()->paginate(10);
+        $purchases = Purchase::latest()
+            ->paginate(10);
 
-        return view('purchases.view', compact('purchases'));
+        return view(
+            'purchases.view',
+            compact('purchases')
+        );
     }
 
 
-    // View Single Purchase
+    /**
+     * Display Single Purchase.
+     */
     public function show(Purchase $purchase)
     {
-        return view('purchases.show', compact('purchase'));
+        return view(
+            'purchases.show',
+            compact('purchase')
+        );
     }
 
 
-    // Edit Purchase
+    /**
+     * Show Edit Purchase form.
+     */
     public function edit(Purchase $purchase)
     {
-        return view('purchases.edit', compact('purchase'));
+        return view(
+            'purchases.edit',
+            compact('purchase')
+        );
     }
 
 
-    // Update Purchase
-    public function update(Request $request, Purchase $purchase)
-    {
+    /**
+     * Update Purchase.
+     */
+    public function update(
+        Request $request,
+        Purchase $purchase
+    ) {
+
         $validated = $request->validate([
-            'supplier' => 'required|string|max:255',
-            'reference_no' => 'required|string|max:255|unique:purchases,reference_no,' . $purchase->id,
-            'purchase_date' => 'required|date',
-            'location' => 'required|string|max:255',
-            'payment_status' => 'required|in:paid,partial,pending',
-            'payment_method' => 'nullable|string|max:255',
-            'total_amount' => 'required|numeric|min:0',
-            'paid_amount' => 'required|numeric|min:0',
-            'due_amount' => 'required|numeric|min:0',
-            'document' => 'nullable|file|max:5120',
-            'notes' => 'nullable|string',
+
+            'supplier' =>
+                'required|string|max:255',
+
+            'reference_no' =>
+                'required|string|max:255|unique:purchases,reference_no,' . $purchase->id,
+
+            'purchase_date' =>
+                'required|date',
+
+            'location' =>
+                'required|string|max:255',
+
+            'payment_status' =>
+                'required|in:paid,partial,pending',
+
+            'payment_method' =>
+                'nullable|string|max:255',
+
+            'total_amount' =>
+                'required|numeric|min:0',
+
+            'paid_amount' =>
+                'required|numeric|min:0',
+
+            'due_amount' =>
+                'required|numeric|min:0',
+
+            'document' =>
+                'nullable|file|max:5120',
+
+            'notes' =>
+                'nullable|string',
         ]);
 
-        // Upload new document
+
+        // Upload New Purchase Document
         if ($request->hasFile('document')) {
 
-            $validated['document'] = $request
-                ->file('document')
-                ->store('purchase-documents', 'public');
-
+            $validated['document'] =
+                $request->file('document')
+                    ->store(
+                        'purchase-documents',
+                        'public'
+                    );
         }
 
+
+        // Update Purchase
         $purchase->update($validated);
+
 
         return redirect()
             ->route('purchases.manage')
-            ->with('success', 'Purchase updated successfully.');
+            ->with(
+                'success',
+                'Purchase updated successfully.'
+            );
     }
 
 
-    // Delete Purchase
+    /**
+     * Delete Purchase.
+     */
     public function destroy(Purchase $purchase)
     {
         $purchase->delete();
 
         return redirect()
             ->route('purchases.manage')
-            ->with('success', 'Purchase deleted successfully.');
+            ->with(
+                'success',
+                'Purchase deleted successfully.'
+            );
     }
 }

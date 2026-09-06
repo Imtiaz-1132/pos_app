@@ -52,8 +52,8 @@
 
 
         {{-- Purchase Order --}}
-        <a href="#"
-           class="nav-link">
+        <a href="{{ route('purchase-orders.index') }}"
+           class="nav-link {{ request()->routeIs('purchase-orders.*') ? 'active' : '' }}">
 
             <i class="bi bi-file-earmark-text"></i>
             <span>Purchase Order</span>
@@ -105,30 +105,35 @@
         <div class="nav-section">SALES & INVENTORY</div>
 
 
+        {{-- Sales --}}
         <a href="#" class="nav-link">
             <i class="bi bi-cart3"></i>
             <span>Sales</span>
         </a>
 
 
+        {{-- Products --}}
         <a href="#" class="nav-link">
             <i class="bi bi-box-seam"></i>
             <span>Products</span>
         </a>
 
 
+        {{-- Customers --}}
         <a href="#" class="nav-link">
             <i class="bi bi-people"></i>
             <span>Customers</span>
         </a>
 
 
+        {{-- Suppliers --}}
         <a href="#" class="nav-link">
             <i class="bi bi-truck"></i>
             <span>Suppliers</span>
         </a>
 
 
+        {{-- Inventory --}}
         <a href="#" class="nav-link">
             <i class="bi bi-boxes"></i>
             <span>Inventory</span>
@@ -139,12 +144,14 @@
         <div class="nav-section">REPORTS</div>
 
 
+        {{-- Reports --}}
         <a href="#" class="nav-link">
             <i class="bi bi-bar-chart"></i>
             <span>Reports</span>
         </a>
 
 
+        {{-- Settings --}}
         <a href="#" class="nav-link">
             <i class="bi bi-gear"></i>
             <span>Settings</span>

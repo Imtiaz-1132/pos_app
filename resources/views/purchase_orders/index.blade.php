@@ -727,353 +727,260 @@
 
 @push('scripts')
 
+<style>
+    /* ================================================================
+       PURCHASE ORDER PRINT AREA
+       ================================================================ */
+    #purchaseOrderPrintArea {
+        display: none;
+    }
+
+    @media print {
+        @page {
+            size: landscape;
+            margin: 10mm;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+        }
+
+        /* Hide the complete application while printing */
+        body * {
+            visibility: hidden !important;
+        }
+
+        /* Show only our generated print area */
+        #purchaseOrderPrintArea,
+        #purchaseOrderPrintArea * {
+            visibility: visible !important;
+        }
+
+        #purchaseOrderPrintArea {
+            display: block !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #fff !important;
+        }
+
+        #purchaseOrderPrintArea .print-title {
+            display: block !important;
+            margin: 0 0 18px 0 !important;
+            padding: 0 !important;
+            font-family: Arial, Helvetica, sans-serif !important;
+            font-size: 26px !important;
+            line-height: 1.2 !important;
+            font-weight: 500 !important;
+            color: #000 !important;
+        }
+
+        #purchaseOrderPrintArea table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+            table-layout: auto !important;
+            font-family: Arial, Helvetica, sans-serif !important;
+            font-size: 12px !important;
+            color: #000 !important;
+        }
+
+        #purchaseOrderPrintArea thead {
+            display: table-header-group !important;
+        }
+
+        #purchaseOrderPrintArea tbody {
+            display: table-row-group !important;
+        }
+
+        #purchaseOrderPrintArea tr {
+            display: table-row !important;
+            page-break-inside: avoid !important;
+        }
+
+        #purchaseOrderPrintArea th {
+            display: table-cell !important;
+            background: #f8f8f8 !important;
+            color: #000 !important;
+            border: 1px solid #cfcfcf !important;
+            padding: 9px 8px !important;
+            font-weight: 700 !important;
+            text-align: left !important;
+            vertical-align: middle !important;
+            white-space: normal !important;
+        }
+
+        #purchaseOrderPrintArea td {
+            display: table-cell !important;
+            background: #fff !important;
+            color: #000 !important;
+            border: 1px solid #cfcfcf !important;
+            padding: 8px !important;
+            text-align: left !important;
+            vertical-align: middle !important;
+            white-space: normal !important;
+        }
+
+        #purchaseOrderPrintArea .badge {
+            display: inline-block !important;
+            padding: 3px 6px !important;
+            border: 1px solid #999 !important;
+            border-radius: 3px !important;
+            background: #fff !important;
+            color: #000 !important;
+            font-size: 11px !important;
+        }
+    }
+</style>
+
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-document.addEventListener('DOMContentLoaded', function () {
+        /* ============================================================
+           COLUMN VISIBILITY
+           ============================================================ */
+        const columnToggles = document.querySelectorAll('.column-toggle');
 
-    /*
-    |--------------------------------------------------------------------------
-    | COLUMN VISIBILITY
-    |--------------------------------------------------------------------------
-    */
+        columnToggles.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
 
-    const columnToggles =
-        document.querySelectorAll('.column-toggle');
+                const columnIndex = parseInt(this.dataset.column, 10);
+                const table = document.getElementById('purchaseOrderTable');
 
-
-    columnToggles.forEach(function (checkbox) {
-
-        checkbox.addEventListener('change', function () {
-
-            const columnIndex =
-                parseInt(this.dataset.column);
-
-            const table =
-                document.getElementById('purchaseOrderTable');
-
-
-            if (!table) {
-                return;
-            }
-
-
-            const rows =
-                table.querySelectorAll('tr');
-
-
-            rows.forEach(function (row) {
-
-                const cell =
-                    row.children[columnIndex];
-
-
-                if (cell) {
-
-                    cell.style.display =
-                        checkbox.checked
-                            ? ''
-                            : 'none';
-
+                if (!table || Number.isNaN(columnIndex)) {
+                    return;
                 }
 
-            });
+                table.querySelectorAll('tr').forEach(function (row) {
+                    const cell = row.children[columnIndex];
 
+                    if (cell) {
+                        cell.style.display = this.checked ? '' : 'none';
+                    }
+                }, this);
+            });
         });
 
+        /* Keep dropdown open while checking/unchecking columns */
+        const visibilityMenu = document.getElementById('columnVisibilityMenu');
+
+        if (visibilityMenu) {
+            visibilityMenu.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+        }
     });
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | STOP DROPDOWN FROM CLOSING WHEN CHECKBOX IS CLICKED
-    |--------------------------------------------------------------------------
-    */
+    /* ================================================================
+       PRINT PURCHASE ORDERS
+       ================================================================
+       IMPORTANT:
+       We do NOT use window.open() anymore.
+       The previous popup method could create an about:blank preview
+       where the table body appeared blank.
 
-    const visibilityMenu =
-        document.getElementById(
-            'columnVisibilityMenu'
-        );
+       This version creates a temporary print area in the SAME page,
+       fills it with the actual table HTML, then uses window.print().
+       ================================================================ */
+    function printPurchaseOrders() {
 
+        const table = document.getElementById('purchaseOrderTable');
 
-    if (visibilityMenu) {
+        if (!table) {
+            alert('Purchase Order table not found.');
+            return;
+        }
 
-        visibilityMenu.addEventListener(
-            'click',
-            function (event) {
+        /* Remove an old print area if one exists */
+        const oldPrintArea = document.getElementById('purchaseOrderPrintArea');
 
-                event.stopPropagation();
+        if (oldPrintArea) {
+            oldPrintArea.remove();
+        }
 
-            }
-        );
+        /* Clone the actual table from the page */
+        const printTable = table.cloneNode(true);
 
-    }
+        /* ============================================================
+           REMOVE HIDDEN COLUMNS
+           ============================================================ */
+        printTable.querySelectorAll('tr').forEach(function (row) {
 
-});
+            Array.from(row.children).forEach(function (cell) {
 
-
-/*
-|--------------------------------------------------------------------------
-| PRINT PURCHASE ORDERS
-|--------------------------------------------------------------------------
-*/
-
-function printPurchaseOrders() {
-
-    const table =
-        document.getElementById(
-            'purchaseOrderTable'
-        );
-
-
-    if (!table) {
-
-        alert(
-            'Purchase Order table not found.'
-        );
-
-        return;
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Clone Table
-    |--------------------------------------------------------------------------
-    */
-
-    const printTable =
-        table.cloneNode(true);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Remove Action Column
-    |--------------------------------------------------------------------------
-    */
-
-    printTable
-        .querySelectorAll('tr')
-        .forEach(function (row) {
-
-            if (row.children.length > 0) {
-
-                row.children[0].remove();
-
-            }
-
-        });
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Remove Hidden Columns
-    |--------------------------------------------------------------------------
-    |
-    | The current table may have columns hidden
-    | using style="display:none".
-    |
-    */
-
-    printTable
-        .querySelectorAll('tr')
-        .forEach(function (row) {
-
-            const cells =
-                Array.from(row.children);
-
-            cells.forEach(function (cell) {
-
-                if (
-                    cell.style.display === 'none'
-                ) {
-
+                if (cell.style.display === 'none') {
                     cell.remove();
-
                 }
-
             });
-
         });
 
+        /* ============================================================
+           CLEAN ACTION COLUMN
+           ============================================================
+           Keep the Action column like the reference preview, but
+           remove View/Edit/Delete controls from the printed rows.
+           ============================================================ */
+        printTable.querySelectorAll('tbody tr').forEach(function (row) {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Open Print Window
-    |--------------------------------------------------------------------------
-    */
+            const actionCell = row.children[0];
 
-    const printWindow =
-        window.open(
-            '',
-            '_blank',
-            'width=1200,height=800'
-        );
+            if (actionCell) {
+                actionCell.innerHTML = '—';
+                actionCell.style.textAlign = 'center';
+            }
+        });
 
+        /* Fix empty-table colspan after hidden columns */
+        const emptyRow = printTable.querySelector('tbody tr td[colspan]');
 
-    if (!printWindow) {
+        if (emptyRow) {
+            emptyRow.setAttribute('colspan', printTable.querySelectorAll('thead th').length);
+        }
 
-        alert(
-            'Please allow pop-ups for this website to print.'
-        );
+        /* ============================================================
+           CREATE PRINT AREA
+           ============================================================ */
+        const printArea = document.createElement('div');
+        printArea.id = 'purchaseOrderPrintArea';
 
-        return;
+        const title = document.createElement('div');
+        title.className = 'print-title';
+        title.textContent = 'Purchase Order - Shop';
+
+        printArea.appendChild(title);
+        printArea.appendChild(printTable);
+        document.body.appendChild(printArea);
+
+        /* ============================================================
+           PRINT
+           ============================================================ */
+        setTimeout(function () {
+            window.print();
+        }, 150);
+
+        /* ============================================================
+           CLEANUP AFTER PRINT DIALOG CLOSES
+           ============================================================ */
+        const cleanup = function () {
+
+            const area = document.getElementById('purchaseOrderPrintArea');
+
+            if (area) {
+                area.remove();
+            }
+
+            window.removeEventListener('afterprint', cleanup);
+        };
+
+        window.addEventListener('afterprint', cleanup);
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Print HTML
-    |--------------------------------------------------------------------------
-    */
-
-    printWindow.document.write(`
-
-        <!DOCTYPE html>
-
-        <html>
-
-        <head>
-
-            <meta charset="UTF-8">
-
-            <title>
-                Purchase Order - Shop
-            </title>
-
-            <style>
-
-                @page {
-                    size: landscape;
-                    margin: 12mm;
-                }
-
-
-                * {
-                    box-sizing: border-box;
-                }
-
-
-                body {
-
-                    font-family:
-                        Arial,
-                        Helvetica,
-                        sans-serif;
-
-                    margin: 0;
-
-                    padding: 20px;
-
-                    background: #fff;
-
-                    color: #000;
-
-                }
-
-
-                h2 {
-
-                    margin: 0 0 20px 0;
-
-                    font-size: 22px;
-
-                    font-weight: 600;
-
-                }
-
-
-                table {
-
-                    width: 100%;
-
-                    border-collapse: collapse;
-
-                    font-size: 11px;
-
-                }
-
-
-                th {
-
-                    background: #f2f2f2;
-
-                    font-weight: bold;
-
-                }
-
-
-                th,
-                td {
-
-                    border: 1px solid #999;
-
-                    padding: 7px;
-
-                    text-align: left;
-
-                    vertical-align: middle;
-
-                }
-
-
-                tr {
-
-                    page-break-inside: avoid;
-
-                }
-
-
-                .badge {
-
-                    border: none;
-
-                    background: none;
-
-                    color: #000;
-
-                }
-
-            </style>
-
-        </head>
-
-
-        <body>
-
-            <h2>
-                Purchase Order - Shop
-            </h2>
-
-            ${printTable.outerHTML}
-
-        </body>
-
-        </html>
-
-    `);
-
-
-    printWindow.document.close();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Start Printing
-    |--------------------------------------------------------------------------
-    */
-
-    printWindow.onload = function () {
-
-        printWindow.focus();
-
-        printWindow.print();
-
-        printWindow.close();
-
-    };
-
-}
-
 </script>
 
 @endpush

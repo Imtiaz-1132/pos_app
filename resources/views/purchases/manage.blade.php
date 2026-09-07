@@ -13,7 +13,27 @@
             Information Entry
         </h5>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
+        {{-- Success Message --}}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Validation Errors --}}
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('purchase-data.store') }}"
+              method="POST"
+              enctype="multipart/form-data">
 
             @csrf
 
@@ -30,7 +50,9 @@
 
                         <input type="text"
                                name="name"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('name') }}"
+                               required>
                     </div>
 
 
@@ -41,13 +63,16 @@
                         </label>
 
                         <select name="gender"
-                                class="form-select">
+                                class="form-select"
+                                required>
 
-                            <option value="Male">
+                            <option value="Male"
+                                {{ old('gender') == 'Male' ? 'selected' : '' }}>
                                 Male / 男
                             </option>
 
-                            <option value="Female">
+                            <option value="Female"
+                                {{ old('gender') == 'Female' ? 'selected' : '' }}>
                                 Female / 女
                             </option>
 
@@ -63,7 +88,9 @@
 
                         <input type="text"
                                name="address"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('address') }}"
+                               required>
                     </div>
 
 
@@ -75,7 +102,9 @@
 
                         <input type="text"
                                name="telephone"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('telephone') }}"
+                               required>
                     </div>
 
 
@@ -87,7 +116,8 @@
 
                         <input type="file"
                                name="nid_front"
-                               class="form-control">
+                               class="form-control"
+                               accept=".jpg,.jpeg,.png,.pdf">
                     </div>
 
                 </div>
@@ -104,7 +134,9 @@
 
                         <input type="date"
                                name="date"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('date') }}"
+                               required>
                     </div>
 
 
@@ -116,7 +148,9 @@
 
                         <input type="date"
                                name="date_of_birth"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('date_of_birth') }}"
+                               required>
                     </div>
 
 
@@ -128,7 +162,8 @@
 
                         <input type="email"
                                name="email"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('email') }}">
                     </div>
 
 
@@ -140,7 +175,8 @@
 
                         <input type="text"
                                name="occupation"
-                               class="form-control">
+                               class="form-control"
+                               value="{{ old('occupation') }}">
                     </div>
 
 
@@ -152,7 +188,8 @@
 
                         <input type="file"
                                name="nid_back"
-                               class="form-control">
+                               class="form-control"
+                               accept=".jpg,.jpeg,.png,.pdf">
                     </div>
 
                 </div>

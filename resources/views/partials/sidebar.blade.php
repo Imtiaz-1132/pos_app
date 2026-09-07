@@ -32,11 +32,21 @@
 
 
         {{-- Purchase Data Manage --}}
-        <a href="{{ route('purchases.manage') }}"
-           class="nav-link {{ request()->routeIs('purchases.manage') ? 'active' : '' }}">
+        <a href="{{ route('purchase-data.create') }}"
+           class="nav-link {{ request()->routeIs('purchase-data.create') ? 'active' : '' }}">
 
             <i class="bi bi-pencil-square"></i>
             <span>Purchase Data Manage</span>
+
+        </a>
+
+
+        {{-- Saved Purchase Data --}}
+        <a href="{{ route('purchase-data.list') }}"
+           class="nav-link {{ request()->routeIs('purchase-data.list') ? 'active' : '' }}">
+
+            <i class="bi bi-table"></i>
+            <span>Saved Purchase Data</span>
 
         </a>
 
@@ -63,7 +73,7 @@
 
         {{-- List Purchases --}}
         <a href="{{ route('purchases.manage') }}"
-           class="nav-link">
+           class="nav-link {{ request()->routeIs('purchases.manage') ? 'active' : '' }}">
 
             <i class="bi bi-list-ul"></i>
             <span>List Purchases</span>

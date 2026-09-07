@@ -29,7 +29,7 @@
                 <div class="row g-4">
 
                     {{-- BUSINESS LOCATION --}}
-                    <div class="col-md-3">
+                    <div class="col-md-4">
 
                         <label class="po-label">
                             Business Location:
@@ -42,14 +42,30 @@
                                 All
                             </option>
 
+                            <option value="Royal Japan (Shin001)"
+                                {{ request('location') == 'Royal Japan (Shin001)' ? 'selected' : '' }}>
+                                Royal Japan (Shin001)
+                            </option>
+
+                            <option value="kaitorininhon (JP0002)"
+                                {{ request('location') == 'kaitorininhon (JP0002)' ? 'selected' : '' }}>
+                                kaitorininhon (JP0002)
+                            </option>
+
+                            {{-- Other database locations --}}
                             @foreach($locations as $location)
 
-                                <option value="{{ $location }}"
-                                    {{ request('location') == $location ? 'selected' : '' }}>
+                                @if(
+                                    $location !== 'Royal Japan (Shin001)' &&
+                                    $location !== 'kaitorininhon (JP0002)'
+                                )
 
-                                    {{ $location }}
+                                    <option value="{{ $location }}"
+                                        {{ request('location') == $location ? 'selected' : '' }}>
+                                        {{ $location }}
+                                    </option>
 
-                                </option>
+                                @endif
 
                             @endforeach
 
@@ -58,8 +74,125 @@
                     </div>
 
 
+                    {{-- STATUS --}}
+                    <div class="col-md-4">
+
+                        <label class="po-label">
+                            Status:
+                        </label>
+
+                        <select name="status"
+                                class="form-select po-select">
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option value="pending"
+                                {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                Ordered
+                            </option>
+
+                            <option value="partial"
+                                {{ request('status') == 'partial' ? 'selected' : '' }}>
+                                Partial
+                            </option>
+
+                            <option value="completed"
+                                {{ request('status') == 'completed' ? 'selected' : '' }}>
+                                Completed
+                            </option>
+
+                            <option value="cancelled"
+                                {{ request('status') == 'cancelled' ? 'selected' : '' }}>
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- SHIPPING STATUS --}}
+                    <div class="col-md-4">
+
+                        <label class="po-label">
+                            Shipping Status:
+                        </label>
+
+                        <select name="shipping_status"
+                                class="form-select po-select">
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option value="pending"
+                                {{ request('shipping_status') == 'pending' ? 'selected' : '' }}>
+                                Ordered
+                            </option>
+
+                            <option value="partial"
+                                {{ request('shipping_status') == 'partial' ? 'selected' : '' }}>
+                                Packed
+                            </option>
+
+                            <option value="shipped"
+                                {{ request('shipping_status') == 'shipped' ? 'selected' : '' }}>
+                                Shipped
+                            </option>
+
+                            <option value="received"
+                                {{ request('shipping_status') == 'received' ? 'selected' : '' }}>
+                                Delivered
+                            </option>
+
+                            <option value="cancelled"
+                                {{ request('shipping_status') == 'cancelled' ? 'selected' : '' }}>
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- DATE RANGE --}}
+                    <div class="col-md-6">
+
+                        <label class="po-label">
+                            Date Range:
+                        </label>
+
+                        <div class="row g-2">
+
+                            <div class="col-6">
+
+                                <input type="date"
+                                       name="date_from"
+                                       value="{{ request('date_from') }}"
+                                       class="form-control"
+                                       placeholder="From">
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <input type="date"
+                                       name="date_to"
+                                       value="{{ request('date_to') }}"
+                                       class="form-control"
+                                       placeholder="To">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                     {{-- SUPPLIER --}}
-                    <div class="col-md-3">
+                    <div class="col-md-6">
 
                         <label class="po-label">
                             Supplier:
@@ -87,116 +220,6 @@
 
                     </div>
 
-
-                    {{-- STATUS --}}
-                    <div class="col-md-3">
-
-                        <label class="po-label">
-                            Status:
-                        </label>
-
-                        <select name="status"
-                                class="form-select po-select">
-
-                            <option value="">
-                                All
-                            </option>
-
-                            <option value="pending"
-                                {{ request('status') == 'pending' ? 'selected' : '' }}>
-                                Pending
-                            </option>
-
-                            <option value="approved"
-                                {{ request('status') == 'approved' ? 'selected' : '' }}>
-                                Approved
-                            </option>
-
-                            <option value="completed"
-                                {{ request('status') == 'completed' ? 'selected' : '' }}>
-                                Completed
-                            </option>
-
-                            <option value="cancelled"
-                                {{ request('status') == 'cancelled' ? 'selected' : '' }}>
-                                Cancelled
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    {{-- SHIPPING STATUS --}}
-                    <div class="col-md-3">
-
-                        <label class="po-label">
-                            Shipping Status:
-                        </label>
-
-                        <select name="shipping_status"
-                                class="form-select po-select">
-
-                            <option value="">
-                                All
-                            </option>
-
-                            <option value="pending"
-                                {{ request('shipping_status') == 'pending' ? 'selected' : '' }}>
-                                Pending
-                            </option>
-
-                            <option value="partial"
-                                {{ request('shipping_status') == 'partial' ? 'selected' : '' }}>
-                                Partial
-                            </option>
-
-                            <option value="shipped"
-                                {{ request('shipping_status') == 'shipped' ? 'selected' : '' }}>
-                                Shipped
-                            </option>
-
-                            <option value="received"
-                                {{ request('shipping_status') == 'received' ? 'selected' : '' }}>
-                                Received
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    {{-- DATE FROM --}}
-                    <div class="col-md-3">
-
-                        <label class="po-label">
-                            Date Range:
-                        </label>
-
-                        <div class="row g-2">
-
-                            <div class="col-6">
-
-                                <input type="date"
-                                       name="date_from"
-                                       value="{{ request('date_from') }}"
-                                       class="form-control">
-
-                            </div>
-
-                            <div class="col-6">
-
-                                <input type="date"
-                                       name="date_to"
-                                       value="{{ request('date_to') }}"
-                                       class="form-control">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
 
@@ -212,7 +235,7 @@
                     </button>
 
                     <a href="{{ route('purchase-orders.index') }}"
-                       class="btn btn-secondary btn-sm">
+                       class="btn btn-secondary btn-sm ms-1">
 
                         <i class="bi bi-arrow-clockwise me-1"></i>
                         Reset
@@ -272,38 +295,133 @@
 
             <div class="d-flex gap-1 flex-wrap">
 
-                <button type="button"
-                        class="btn btn-light btn-sm border">
+                {{-- EXPORT CSV --}}
+                <a href="{{ route('purchase-orders.export-csv', request()->query()) }}"
+                   class="btn btn-light btn-sm border">
 
                     <i class="bi bi-file-earmark-text"></i>
                     Export to CSV
 
-                </button>
+                </a>
 
-                <button type="button"
-                        class="btn btn-light btn-sm border">
+
+                {{-- EXPORT EXCEL --}}
+                <a href="{{ route('purchase-orders.export-excel', request()->query()) }}"
+                   class="btn btn-light btn-sm border">
 
                     <i class="bi bi-file-earmark-excel"></i>
                     Export to Excel
 
-                </button>
+                </a>
 
+
+                {{-- PRINT --}}
                 <button type="button"
-                        class="btn btn-light btn-sm border">
+                        class="btn btn-light btn-sm border"
+                        onclick="printPurchaseOrders()">
 
                     <i class="bi bi-printer"></i>
                     Print
 
                 </button>
 
-                <button type="button"
-                        class="btn btn-light btn-sm border">
 
-                    <i class="bi bi-layout-three-columns"></i>
-                    Column visibility
+                {{-- COLUMN VISIBILITY --}}
+                <div class="dropdown">
 
-                </button>
+                    <button type="button"
+                            class="btn btn-light btn-sm border dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
 
+                        <i class="bi bi-layout-three-columns"></i>
+                        Column visibility
+
+                    </button>
+
+
+                    <div class="dropdown-menu p-2"
+                         id="columnVisibilityMenu"
+                         style="min-width:230px;">
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="0"
+                                   checked>
+                            Action
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="1"
+                                   checked>
+                            Date
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="2"
+                                   checked>
+                            Reference No
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="3"
+                                   checked>
+                            Location
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="4"
+                                   checked>
+                            Supplier
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="5"
+                                   checked>
+                            Status
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="6"
+                                   checked>
+                            Quantity Remaining
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="7"
+                                   checked>
+                            Shipping Status
+                        </label>
+
+                        <label class="dropdown-item">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 column-toggle"
+                                   data-column="8"
+                                   checked>
+                            Added By
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                {{-- EXPORT PDF --}}
                 <button type="button"
                         class="btn btn-light btn-sm border">
 
@@ -321,6 +439,7 @@
                   class="ms-auto">
 
                 {{-- Keep filters when searching --}}
+
                 <input type="hidden"
                        name="location"
                        value="{{ request('location') }}">
@@ -360,7 +479,8 @@
         {{-- TABLE --}}
         <div class="table-responsive">
 
-            <table class="table table-hover po-table mb-0">
+            <table id="purchaseOrderTable"
+                   class="table table-hover po-table mb-0">
 
                 <thead>
 
@@ -408,6 +528,7 @@
 
                                     </a>
 
+
                                     <a href="{{ route('purchase-orders.edit', $purchaseOrder) }}"
                                        class="btn btn-outline-warning"
                                        title="Edit">
@@ -416,11 +537,13 @@
 
                                     </a>
 
+
                                     <form action="{{ route('purchase-orders.destroy', $purchaseOrder) }}"
                                           method="POST"
                                           onsubmit="return confirm('Are you sure you want to delete this purchase order?');">
 
                                         @csrf
+
                                         @method('DELETE')
 
                                         <button type="submit"
@@ -521,10 +644,16 @@
                                         Shipped
                                     </span>
 
-                                @else
+                                @elseif($purchaseOrder->shipping_status === 'received')
 
                                     <span class="badge bg-success">
                                         Received
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-danger">
+                                        Cancelled
                                     </span>
 
                                 @endif
@@ -590,5 +719,363 @@
     </div>
 
 </div>
+
+
+{{-- ================================================================ --}}
+{{-- JAVASCRIPT --}}
+{{-- ================================================================ --}}
+
+@push('scripts')
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLUMN VISIBILITY
+    |--------------------------------------------------------------------------
+    */
+
+    const columnToggles =
+        document.querySelectorAll('.column-toggle');
+
+
+    columnToggles.forEach(function (checkbox) {
+
+        checkbox.addEventListener('change', function () {
+
+            const columnIndex =
+                parseInt(this.dataset.column);
+
+            const table =
+                document.getElementById('purchaseOrderTable');
+
+
+            if (!table) {
+                return;
+            }
+
+
+            const rows =
+                table.querySelectorAll('tr');
+
+
+            rows.forEach(function (row) {
+
+                const cell =
+                    row.children[columnIndex];
+
+
+                if (cell) {
+
+                    cell.style.display =
+                        checkbox.checked
+                            ? ''
+                            : 'none';
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | STOP DROPDOWN FROM CLOSING WHEN CHECKBOX IS CLICKED
+    |--------------------------------------------------------------------------
+    */
+
+    const visibilityMenu =
+        document.getElementById(
+            'columnVisibilityMenu'
+        );
+
+
+    if (visibilityMenu) {
+
+        visibilityMenu.addEventListener(
+            'click',
+            function (event) {
+
+                event.stopPropagation();
+
+            }
+        );
+
+    }
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| PRINT PURCHASE ORDERS
+|--------------------------------------------------------------------------
+*/
+
+function printPurchaseOrders() {
+
+    const table =
+        document.getElementById(
+            'purchaseOrderTable'
+        );
+
+
+    if (!table) {
+
+        alert(
+            'Purchase Order table not found.'
+        );
+
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Clone Table
+    |--------------------------------------------------------------------------
+    */
+
+    const printTable =
+        table.cloneNode(true);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove Action Column
+    |--------------------------------------------------------------------------
+    */
+
+    printTable
+        .querySelectorAll('tr')
+        .forEach(function (row) {
+
+            if (row.children.length > 0) {
+
+                row.children[0].remove();
+
+            }
+
+        });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove Hidden Columns
+    |--------------------------------------------------------------------------
+    |
+    | The current table may have columns hidden
+    | using style="display:none".
+    |
+    */
+
+    printTable
+        .querySelectorAll('tr')
+        .forEach(function (row) {
+
+            const cells =
+                Array.from(row.children);
+
+            cells.forEach(function (cell) {
+
+                if (
+                    cell.style.display === 'none'
+                ) {
+
+                    cell.remove();
+
+                }
+
+            });
+
+        });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Open Print Window
+    |--------------------------------------------------------------------------
+    */
+
+    const printWindow =
+        window.open(
+            '',
+            '_blank',
+            'width=1200,height=800'
+        );
+
+
+    if (!printWindow) {
+
+        alert(
+            'Please allow pop-ups for this website to print.'
+        );
+
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Print HTML
+    |--------------------------------------------------------------------------
+    */
+
+    printWindow.document.write(`
+
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                Purchase Order - Shop
+            </title>
+
+            <style>
+
+                @page {
+                    size: landscape;
+                    margin: 12mm;
+                }
+
+
+                * {
+                    box-sizing: border-box;
+                }
+
+
+                body {
+
+                    font-family:
+                        Arial,
+                        Helvetica,
+                        sans-serif;
+
+                    margin: 0;
+
+                    padding: 20px;
+
+                    background: #fff;
+
+                    color: #000;
+
+                }
+
+
+                h2 {
+
+                    margin: 0 0 20px 0;
+
+                    font-size: 22px;
+
+                    font-weight: 600;
+
+                }
+
+
+                table {
+
+                    width: 100%;
+
+                    border-collapse: collapse;
+
+                    font-size: 11px;
+
+                }
+
+
+                th {
+
+                    background: #f2f2f2;
+
+                    font-weight: bold;
+
+                }
+
+
+                th,
+                td {
+
+                    border: 1px solid #999;
+
+                    padding: 7px;
+
+                    text-align: left;
+
+                    vertical-align: middle;
+
+                }
+
+
+                tr {
+
+                    page-break-inside: avoid;
+
+                }
+
+
+                .badge {
+
+                    border: none;
+
+                    background: none;
+
+                    color: #000;
+
+                }
+
+            </style>
+
+        </head>
+
+
+        <body>
+
+            <h2>
+                Purchase Order - Shop
+            </h2>
+
+            ${printTable.outerHTML}
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    printWindow.document.close();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Start Printing
+    |--------------------------------------------------------------------------
+    */
+
+    printWindow.onload = function () {
+
+        printWindow.focus();
+
+        printWindow.print();
+
+        printWindow.close();
+
+    };
+
+}
+
+</script>
+
+@endpush
 
 @endsection

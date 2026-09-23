@@ -84,69 +84,79 @@ The application was independently implemented using Laravel rather than modifyin
 
 # Implemented Modules
 
-## 1. Home Dashboard
 
-The Home Dashboard provides the main interface of the POS application.
+The POS Management System currently includes the following implemented modules and interfaces:
 
-### Implemented Features
-
-- POS dashboard layout
-- Sidebar navigation
-- Top navigation bar
-- Purchase module navigation
-- Quick action section
+### 1. Home Dashboard
+- POS application dashboard
+- Navigation sidebar and top navigation
 - Sales and purchase summary cards
-- Product and customer summary
-- System overview section
-- Recent purchase section
-- Navigation to purchase management modules
+- Total products and customer overview
+- Quick action section
+- System status overview
+- Recent purchases section
+- New Purchase shortcut
 
-The dashboard interface was recreated based on the reference screenshots and POS360 interface.
-
----
-
-# 2. Purchase Data Manage
-
-The **Purchase Data Manage** module is used to enter and manage customer/purchase-related information.
-
-## Information Entry Form
-
-The form includes:
-
-- Name
-- Gender
-- Address
-- Telephone
-- Date
-- Date of Birth
-- Email Address
-- Occupation
-- NID Front Photo
-- NID Back Photo
-
-## Implemented Functionality
-
-- Add new purchase data
-- Save information to MySQL
-- View saved purchase data
-- Edit existing records
-- Update records
-- Delete records
+### 2. Purchase Data Manage
+- Purchase/customer information entry form
+- Name and gender
+- Address and telephone
+- Date and date of birth
+- Email and occupation
+- NID front and back photo upload
 - Form validation
-- File upload
-- NID document management
-- Database integration
-- Saved data listing
-- Action buttons for view, edit, and delete
+- MySQL database integration
+- Submit and save functionality
 
-## File Upload
+### 3. Saved Purchase Data
+- Display saved purchase/customer records
+- Tabular data presentation
+- View NID front and back documents
+- View saved information
+- Edit existing records
+- Delete records
+- Add new purchase data
+- Database-driven records
 
-The system supports uploading NID documents through Laravel's file handling system.
+### 4. View Purchase Data
+- Purchase data listing
+- Search by reference number
+- Purchase ID
+- Supplier information
+- Reference number
+- Purchase date
+- Location
+- Payment status
+- Total amount
+- Paid and due amount
+- Action controls
+- Empty-state handling when no records are available
 
-Supported file types include:
+### 5. Purchase Order
+- Purchase order management interface
+- Business location filter
+- Order status filter
+- Shipping status filter
+- Date range filtering
+- Supplier filtering
+- Search functionality
+- Reset filters
+- Purchase order table
+- Add purchase order
+- CSV export
+- Excel export
+- PDF export
+- Print functionality
+- Column visibility control
+- Pagination / entries control
 
-```text
-JPG
-JPEG
-PNG
-PDF
+### 6. Add Purchase
+- Purchase information entry interface
+- Customer/purchase information form
+- Date and date of birth
+- Gender selection
+- Address and contact information
+- Email and occupation
+- NID front and back document upload
+- Submit functionality
+- Laravel backend integration

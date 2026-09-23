@@ -163,6 +163,32 @@ The POS Management System currently includes the following implemented modules a
 - Submit functionality
 - Laravel backend integration
 
+### 7. POS Home / Sales Interface
+
+The POS Home interface provides the main sales and billing workspace.
+
+- Business location selection
+- Customer selection
+- Customer search
+- Product search
+- SKU / barcode search
+- Product categories
+- Brand filtering
+- Product listing
+- Shopping cart area
+- Quantity management
+- Service staff selection
+- Sales calculation
+- Payment options
+- Cash payment
+- Card payment
+- Multiple payment
+- Credit sale
+- Quotation
+- Suspend transaction
+- Cancel transaction
+- Recent transactions
+
 ---
 
 ## Application Screenshots
@@ -212,3 +238,8 @@ The Purchase Order page provides filtering by business location, status, shippin
 ![Add Purchase](screenshots/add-purchase.png)
 
 The Add Purchase page provides a purchase information entry interface with customer details, date information, contact information, occupation, and NID document upload functionality.
+
+## 7. POS Home / Sales Interface
+![POS Home / Sales Interface](screenshots/home_pos.png)
+
+The POS Home / Sales Interface provides the main sales and transaction screen of the system. It includes customer selection, product search, category and brand filtering, product listing, cart management, payment options, and transaction controls.

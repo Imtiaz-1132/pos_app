@@ -136,7 +136,27 @@ The Purchase Order page provides filtering by business location, status, shippin
 
 The Add Purchase page provides a purchase information entry interface with customer details, date information, contact information, occupation, and NID document upload functionality.
 
-## 7. POS Home / Sales Interface
+---
+
+### 7. POS Home / Sales Interface
 ![POS Home / Sales Interface](screenshots/home_pos.png)
 
 The POS Home / Sales Interface provides the main sales and transaction screen of the system. It includes customer selection, product search, category and brand filtering, product listing, cart management, payment options, and transaction controls.
+
+---
+
+### 8. NID Document View
+
+![NID Document View](screenshots/nid_view.png)
+
+The system provides a document viewing feature for uploaded NID documents. Users can access and view the uploaded NID document directly from the purchase data interface.
+
+---
+
+## 9. Purchase Order CSV Export
+
+![Purchase Order CSV Export](screenshots/purchase-order_CSV.png)
+
+The Purchase Order module includes a CSV export feature that allows purchase order data to be exported for further processing and record keeping.
+
+---

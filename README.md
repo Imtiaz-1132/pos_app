@@ -18,6 +18,8 @@ The main objective of this project is to recreate and implement selected POS360 
 - Purchase Data Manage
 - View Purchase Data
 - Purchase Order
+- Saved Purchase Data
+- Add Purchase
 
 The project follows the **Laravel MVC architecture** and uses **MySQL** for persistent data storage.
 

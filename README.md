@@ -162,3 +162,53 @@ The POS Management System currently includes the following implemented modules a
 - NID front and back document upload
 - Submit functionality
 - Laravel backend integration
+
+---
+
+## Application Screenshots
+
+### 1. Home Dashboard
+
+![Home Dashboard](screenshots/dashboard.png)
+
+The Home Dashboard provides an overview of the POS system, including sales, purchases, products, customers, quick actions, system status, and recent purchases.
+
+---
+
+### 2. Purchase Data Manage
+
+![Purchase Data Manage](screenshots/purchase-data-manage.png)
+
+The Purchase Data Manage page provides an information entry form for managing purchase/customer-related information, including personal details, contact information, date information, and NID documents.
+
+---
+
+### 3. Saved Purchase Data
+
+![Saved Purchase Data](screenshots/saved-purchase-data.png)
+
+The Saved Purchase Data page displays previously stored records in a table with options to view NID documents, view records, edit information, and delete records.
+
+---
+
+### 4. View Purchase Data
+
+![View Purchase Data](screenshots/view-purchase-data.png)
+
+The View Purchase Data page provides purchase record management with reference-number search, supplier information, purchase date, payment status, total amount, paid amount, and due amount.
+
+---
+
+### 5. Purchase Order
+
+![Purchase Order](screenshots/purchase-order.png)
+
+The Purchase Order page provides filtering by business location, status, shipping status, date range, and supplier. It also includes search, export, print, column visibility, and purchase order management functionality.
+
+---
+
+### 6. Add Purchase
+
+![Add Purchase](screenshots/add-purchase.png)
+
+The Add Purchase page provides a purchase information entry interface with customer details, date information, contact information, occupation, and NID document upload functionality.

@@ -1,58 +1,142 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# POS Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+This project is a web-based Point of Sale (POS) Management System developed using **Laravel**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The system is developed based on the existing **POS360 web application interface (`pos.japan365.co`)**. Screenshots and interface references from the existing system were used as a design and functional reference, and the required pages and features were recreated and implemented in the Laravel application.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The project covers the **Frontend, Backend, Database, Home Dashboard, and Purchase Management** functionality.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Project Scope
 
-## Learning Laravel
+The main objective of this project is to recreate and implement the required POS functionality using:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Laravel
+- PHP
+- Blade
+- Bootstrap
+- JavaScript
+- MySQL
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The implemented system includes the **Home Dashboard** and the first three Purchase subsections:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+1. **Purchase Data Manage**
+2. **View Purchase Data**
+3. **Purchase Order**
 
-## Agentic Development
+The implementation includes frontend design, backend logic, database integration, forms, CRUD operations, validation, file uploads, searching, filtering, printing, column visibility, and data export functionality.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
-```bash
-composer require laravel/boost --dev
+## Reference System
 
-php artisan boost:install
-```
+The existing **POS360 web application (`pos.japan365.co`)** was used as the primary interface and functionality reference.
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Screenshots of the existing POS system were taken and analyzed to reproduce the required:
 
-## Contributing
+- Page layouts
+- Navigation structure
+- Forms
+- Buttons
+- Tables
+- Filters
+- Dropdowns
+- Purchase management interfaces
+- Purchase order interface
+- Print interface
+- Export interface
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The recreated system is implemented using Laravel rather than directly modifying the existing website.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Technology Stack
 
-## Security Vulnerabilities
+### Frontend
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- HTML5
+- CSS3
+- Bootstrap
+- JavaScript
+- Blade Template Engine
 
-## License
+### Backend
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- PHP
+- Laravel Framework
+- Laravel MVC Architecture
+- Eloquent ORM
+
+### Database
+
+- MySQL
+
+### Development Tools
+
+- Visual Studio Code
+- Composer
+- Git
+- GitHub
+- XAMPP / PHP
+
+---
+
+# Implemented Modules
+
+## 1. Home Dashboard
+
+The Home Dashboard provides the main interface of the POS application.
+
+It includes:
+
+- Main navigation
+- POS navigation structure
+- Dashboard interface
+- Access to Purchase modules
+- Access to other POS sections
+
+The dashboard interface was recreated based on screenshots and references from the existing POS360 system.
+
+---
+
+## 2. Purchase Data Manage
+
+The Purchase Data Manage section is used to enter and manage purchase/customer-related information.
+
+### Implemented Fields
+
+- Name
+- Gender
+- Address
+- Telephone
+- NID Front
+- Date
+- Date of Birth
+- Email
+- Occupation
+- NID Back
+
+### Implemented Functionality
+
+- Add Purchase Data
+- Save data to MySQL
+- View saved data
+- Edit data
+- Update data
+- Delete data
+- Form validation
+- File upload
+- Pagination
+
+### File Upload
+
+NID documents can be uploaded using Laravel's file storage system.
+
+Supported formats:
+
+```text
+JPG
+JPEG
+PNG
+PDF
